@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste</title>
+    <style>
+        body { background: url("./images/bg3.jpg"); }
+        #canvas { border: 1px solid #FFF; display: block; margin: 50px auto; }
+    </style>
+</head>
+<body>
+<div id="canvas-warp">
+    <canvas id="canvas">
+    </canvas>
+</div>
+
+<script src="sprites.js"></script>
+<script src="game.js"></script>
+<script src="render.js"></script>
+<script src="keyboardListener.js"></script>
+
+<script>
+    window.onload = function(){
+        const screen = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const game = createGame();
+        const keyboarListener = createKeyboardListener(game);
+        const gameRenderer = createGameRenderer();
+        const aps = 40; //att per second
+        const fps = 60
+
+        screen.width = 1000;
+        screen.height = 600;
+
+        game.state.players['player'] =  {
+            x: 50,
+            y: 25,
+            w: 65,
+            h: 100,
+            direction: 1,
+            state: 0,
+            velocity: {
+                x: 0,
+                y: 0,
+            }
+        }
+
+        setInterval(game.run, 1000/aps);
+
+        setInterval(() => {
+            gameRenderer.renderGame(ctx, screen, game.state, sprites);
+        }, 1000/fps);
+    }; 
+</script>
+</body>
+</html>
